@@ -12,6 +12,67 @@
     <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
+<script>
+        
+var TxtRotate = function(el, toRotate, period) {
+  this.toRotate = toRotate;
+  this.el = el;
+  this.loopNum = 0;
+  this.period = parseInt(period, 10) || 2000;
+  this.txt = '';
+  this.tick();
+  this.isDeleting = false;
+};
+
+TxtRotate.prototype.tick = function() {
+  var i = this.loopNum % this.toRotate.length;
+  var fullTxt = this.toRotate[i];
+
+  if (this.isDeleting) {
+    this.txt = fullTxt.substring(0, this.txt.length - 1);
+  } else {
+    this.txt = fullTxt.substring(0, this.txt.length + 1);
+  }
+
+  this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+  var that = this;
+  var delta = 300 - Math.random() * 100;
+
+  if (this.isDeleting) { delta /= 2; }
+
+  if (!this.isDeleting && this.txt === fullTxt) {
+    delta = this.period;
+    this.isDeleting = true;
+  } else if (this.isDeleting && this.txt === '') {
+    this.isDeleting = false;
+    this.loopNum++;
+    delta = 500;
+  }
+
+  setTimeout(function() {
+    that.tick();
+  }, delta);
+};
+
+window.onload = function() {
+  var elements = document.getElementsByClassName('txt-rotate');
+  for (var i=0; i<elements.length; i++) {
+    var toRotate = elements[i].getAttribute('data-rotate');
+    var period = elements[i].getAttribute('data-period');
+    if (toRotate) {
+      new TxtRotate(elements[i], JSON.parse(toRotate), period);
+    }
+  }
+  // INJECT CSS
+  var css = document.createElement("style");
+  css.type = "text/css";
+  css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
+  document.body.appendChild(css);
+};
+    </script>
+
+
 </head>
 
 <body>
@@ -48,7 +109,7 @@
         <div id="lead-content">
             <h1>Rooppesh Sarankapani</h1>
 <br/>
-            <a href="http://bit.ly/rooppesh-98" class="btn-rounded-white">Download Resume</a>
+            <a href="http://bit.ly/rooppesh_cv" class="btn-rounded-white">Download Resume</a>
         </div>
         <!-- End #lead-content -->
 
@@ -67,11 +128,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h2 class="heading">About Me</h2>
+                    <h2 class="	heading">About Me</h2>
                 </div>
                 <div class="col-md-8">
-                    <p>
-                        
+                    <p class="spl" style="line-height:85%;"">
+<br/>           Android Dev | ML Enthusiast | Travel | Photograghy | Football
                     </p>
                 </div>
             </div>
@@ -103,7 +164,7 @@ Model is being used.
 
 <div data-date="May 2018 – June 2018">
                 <h3>Jean Martin Inc</h3>
-                <h4>SDE Intern</h4>
+                <h4>Cloud Computing Intern</h4>
                 <p>
                    Worked on developing Proof of Concepts for
 various projects in both Amazon Web Services as
